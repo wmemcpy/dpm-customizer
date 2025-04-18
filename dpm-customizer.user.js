@@ -13,8 +13,8 @@
 // @license      MIT
 // @homepageURL  https://github.com/wmemcpy/dpm-customizer
 // @supportURL   https://github.com/wmemcpy/dpm-customizer/issues
-// @updateURL    https://github.com/wmemcpy/dpm-customizer/main/dpm-customizer.user.js
-// @downloadURL  https://github.com/wmemcpy/dpm-customizer/main/dpm-customizer.user.js
+// @updateURL    https://github.com/wmemcpy/dpm-customizer/blob/main/dpm-customizer.user.js
+// @downloadURL  https://github.com/wmemcpy/dpm-customizer/blob/main/dpm-customizer.user.js
 // ==/UserScript==
 
 (function() {
