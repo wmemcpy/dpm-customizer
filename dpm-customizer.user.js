@@ -17,27 +17,28 @@
 // @downloadURL  https://github.com/wmemcpy/dpm-customizer/main/dpm-customizer.user.js
 // ==/UserScript==
 
-(function () {
+(function() {
     'use strict';
 
     const defaultSettings = {
-        bgMain: '#1f222a',
-        bgHeader: '#2a2e3a',
-        bgWidget: '#353a4a',
-        bgWidgetHover: '#40465a',
-        bgActiveTab: '#4a506a',
-        bgButton: '#4a506a',
-        bgButtonHover: '#5a607a',
-        textPrimary: '#e1e4ea',
-        textSecondary: '#b0b6c4',
-        textTertiary: '#80889a',
-        accentPrimary: '#ff6b6b',
-        accentSecondary: '#4ecdc4',
-        accentTertiary: '#ffd166',
-        winrateUp: '#57cc99',
-        winrateDown: '#ff6b6b',
-        borderPrimary: 'rgba(225, 228, 234, 0.1)',
-        borderSecondary: '#4a506a',
+        bgMain: '#131619',
+        bgHeader: '#0D0F10',
+        bgWidget: '#1A1D21',
+        bgWidgetHover: '#363A3D',
+        bgActiveTab: '#2A2E34',
+        bgButton: '#1A1D21',
+        bgButtonHover: '#363A3D',
+        textPrimary: '#FFFFFF',
+        textSecondary: '#E8E9E9',
+        textTertiary: '#9B9C9E',
+        accentPrimary: '#7989EC',
+        accentSecondary: '#A1E4F9',
+        accentTertiary: '#FFDC75',
+        winrateUp: '#DBF7CD',
+        winrateDown: '#f7665e',
+        borderPrimary: 'rgba(255, 255, 255, 0.1)',
+        borderSecondary: '#363A3D',
+
         fontSizeBase: '14px',
         borderRadiusBase: '0.5rem',
         widgetPadding: '16px',
@@ -96,52 +97,52 @@
         }
     }
 
-    function saveSettings() {
-        const panel = document.getElementById(panelElementId);
-        if (!panel) {
-            console.error("Save button clicked but panel not found.");
-            return;
-        }
-        const settingsToSave = {};
-        Object.keys(defaultSettings).forEach(key => {
-            const input = panel.querySelector(`[data-setting-key="${key}"]`);
-            if (input) {
+     function saveSettings() {
+         const panel = document.getElementById(panelElementId);
+         if (!panel) {
+             console.error("Save button clicked but panel not found.");
+             return;
+         }
+         const settingsToSave = {};
+         Object.keys(defaultSettings).forEach(key => {
+             const input = panel.querySelector(`[data-setting-key="${key}"]`);
+             if (input) {
                 settingsToSave[key] = input.value;
-            } else {
-                settingsToSave[key] = currentSettings[key];
-            }
-        });
+             } else {
+                 settingsToSave[key] = currentSettings[key];
+             }
+         });
 
-        currentSettings = settingsToSave;
-        GM_setValue(storageKey, JSON.stringify(currentSettings));
-        console.log("Settings saved:", currentSettings);
-        applySettingsInternal(currentSettings);
-        stylesInjectedOnLoad = true;
-    }
+         currentSettings = settingsToSave;
+         GM_setValue(storageKey, JSON.stringify(currentSettings));
+         console.log("Settings saved:", currentSettings);
+         applySettingsInternal(currentSettings);
+         stylesInjectedOnLoad = true;
+     }
 
-    function applySettingsInternal(settingsToApply) {
-        injectOrUpdateStyles(createCssTemplate(settingsToApply));
-        console.log("Applied settings:", settingsToApply);
-    }
+     function applySettingsInternal(settingsToApply) {
+         injectOrUpdateStyles(createCssTemplate(settingsToApply));
+         console.log("Applied settings:", settingsToApply);
+     }
 
-    function applySettingsFromUI() {
-        const panel = document.getElementById(panelElementId);
-        if (!panel) return;
+     function applySettingsFromUI() {
+         const panel = document.getElementById(panelElementId);
+         if (!panel) return;
 
-        const settingsToApply = {};
-        Object.keys(defaultSettings).forEach(key => {
-            const input = panel.querySelector(`[data-setting-key="${key}"]`);
-            if (input) {
+         const settingsToApply = {};
+          Object.keys(defaultSettings).forEach(key => {
+              const input = panel.querySelector(`[data-setting-key="${key}"]`);
+              if (input) {
                 settingsToApply[key] = input.value;
-            } else {
-                settingsToApply[key] = currentSettings[key];
-            }
-        });
+              } else {
+                  settingsToApply[key] = currentSettings[key];
+              }
+          });
 
-        currentSettings = settingsToApply;
-        applySettingsInternal(settingsToApply);
-        stylesInjectedOnLoad = true;
-    }
+          currentSettings = settingsToApply;
+          applySettingsInternal(settingsToApply);
+          stylesInjectedOnLoad = true;
+     }
 
     function resetSettings() {
         console.log("Resetting settings to default.");
@@ -149,12 +150,12 @@
         currentSettings = { ...defaultSettings };
         const panel = document.getElementById(panelElementId);
         if (panel) {
-            Object.keys(defaultSettings).forEach(key => {
-                const input = panel.querySelector(`[data-setting-key="${key}"]`);
-                if (input) {
-                    input.value = defaultSettings[key];
-                }
-            });
+             Object.keys(defaultSettings).forEach(key => {
+                 const input = panel.querySelector(`[data-setting-key="${key}"]`);
+                 if (input) {
+                     input.value = defaultSettings[key];
+                 }
+             });
         }
         removeStyles();
         stylesInjectedOnLoad = false;
@@ -188,10 +189,11 @@
             --custom-accent-secondary-rgb: ${hexToRgb(settings.accentSecondary)};
             --custom-accent-tertiary-rgb: ${hexToRgb(settings.accentTertiary)};
             --custom-bg-widget-rgb: ${hexToRgb(settings.bgWidget)};
+            --custom-winrate-down-rgb: ${hexToRgb(settings.winrateDown)};
         }
 
         body, body.bg-black-700 { background-color: var(--custom-bg-main) !important; color: var(--custom-text-secondary) !important; font-size: var(--custom-font-size-base) !important; }
-        .rounded, .rounded-lg, .rounded-xl, .rounded-md, .rounded-sm, .rounded-full, button, input, [role="tab"], [role="dialog"], [role="menu"] { border-radius: var(--custom-border-radius-base) !important; }
+        .rounded, .rounded-lg, .rounded-xl, .rounded-md, .rounded-sm, .rounded-full, button, input, [role="tab"], [role="dialog"], [role="menu"], .overflow-hidden.rounded-xl, .overflow-hidden.rounded-md { border-radius: var(--custom-border-radius-base) !important; }
         .border-black-0\\/10, .border-black-300\\/10, .border-border { border-color: var(--custom-border-primary) !important; }
         .border-black-500, .border-input { border-color: var(--custom-border-secondary) !important; }
         header.bg-black-800 { background-color: var(--custom-bg-header) !important; border-bottom: 1px solid var(--custom-border-secondary) !important; height: var(--custom-header-height) !important; min-height: var(--custom-header-height) !important; }
@@ -218,11 +220,11 @@
         .text-yellow-400, .text-yellow-400\\/90 { color: var(--custom-accent-tertiary) !important; }
         .text-lime-300 { color: var(--custom-winrate-up) !important; }
         .text-\\[\\#f7665e\\], .text-\\[\\#f7665e\\]\\/80 { color: var(--custom-winrate-down) !important; }
-        .text-cyan-400 { color: var(--custom-rank-challenger) !important; }
+        .text-cyan-400 { color: var(--custom-rank-challenger, var(--custom-accent-secondary)) !important; } /* Fallback for Challenger color */
         .bg-yellow-400\\/60 { background-color: rgba(var(--custom-accent-tertiary-rgb), 0.6) !important; }
         .bg-purple-300\\/60 { background-color: rgba(var(--custom-accent-primary-rgb), 0.6) !important; }
         .bg-cyan-500\\/60 { background-color: rgba(var(--custom-accent-secondary-rgb), 0.6) !important; }
-        .bg-red-600\\/60 { background-color: rgba(${hexToRgb(settings.winrateDown)}, 0.6) !important;}
+        .bg-red-600\\/60 { background-color: rgba(var(--custom-winrate-down-rgb), 0.6) !important;}
         .text-purple-300, .text-blue-400 { color: var(--custom-accent-primary) !important; }
         .bg-purple-300, .bg-blue-400 { background-color: var(--custom-accent-primary) !important; }
         .shadow-\\[0_0px_12px_0px_rgba\\(222\\2c_204\\2c_251\\2c_0\\.1\\)\\] { box-shadow: 0 0px 10px 0px rgba(var(--custom-accent-primary-rgb), 0.1) !important; }
@@ -259,14 +261,14 @@
             let step = type === 'number' ? '1' : '';
             let unit = '';
 
-            if (type === 'dimension') {
-                inputType = 'text';
-                const match = /(\d+(\.\d+)?)\s*([a-zA-Z%]+)?/.exec(value);
-                if (match && match[3]) unit = ` (${match[3]})`;
-                else if (match && !match[3]) unit = ' (px assumed)';
-                else unit = ' (e.g., 16px, 0.5rem)';
-                label += unit;
-            }
+             if (type === 'dimension') {
+                 inputType = 'text';
+                 const match = /(\d+(\.\d+)?)\s*([a-zA-Z%]+)?/.exec(value);
+                 if (match && match[3]) unit = ` (${match[3]})`;
+                 else if (match && !match[3]) unit = ' (px assumed)';
+                 else unit = ' (e.g., 16px, 0.5rem)';
+                  label += unit;
+             }
 
             return `
                  <div class="dpm-setting-row" data-type="${type}">
@@ -338,12 +340,12 @@
             if (panel) {
                 const isHidden = panel.style.display === 'none';
                 panel.style.display = isHidden ? 'block' : 'none';
-                if (isHidden) {
-                    Object.keys(currentSettings).forEach(key => {
-                        const input = panel.querySelector(`[data-setting-key="${key}"]`);
-                        if (input) input.value = currentSettings[key];
-                    });
-                }
+                 if (isHidden) {
+                     Object.keys(currentSettings).forEach(key => {
+                         const input = panel.querySelector(`[data-setting-key="${key}"]`);
+                         if (input) input.value = currentSettings[key];
+                     });
+                 }
             }
         });
     }
