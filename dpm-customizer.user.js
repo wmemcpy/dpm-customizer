@@ -17,7 +17,7 @@
 // @downloadURL  https://github.com/wmemcpy/dpm-customizer/main/dpm-customizer.user.js
 // ==/UserScript==
 
-(function() {
+(function () {
     'use strict';
 
     const defaultSettings = {
@@ -96,52 +96,52 @@
         }
     }
 
-     function saveSettings() {
-         const panel = document.getElementById(panelElementId);
-         if (!panel) {
-             console.error("Save button clicked but panel not found.");
-             return;
-         }
-         const settingsToSave = {};
-         Object.keys(defaultSettings).forEach(key => {
-             const input = panel.querySelector(`[data-setting-key="${key}"]`);
-             if (input) {
+    function saveSettings() {
+        const panel = document.getElementById(panelElementId);
+        if (!panel) {
+            console.error("Save button clicked but panel not found.");
+            return;
+        }
+        const settingsToSave = {};
+        Object.keys(defaultSettings).forEach(key => {
+            const input = panel.querySelector(`[data-setting-key="${key}"]`);
+            if (input) {
                 settingsToSave[key] = input.value;
-             } else {
-                 settingsToSave[key] = currentSettings[key];
-             }
-         });
+            } else {
+                settingsToSave[key] = currentSettings[key];
+            }
+        });
 
-         currentSettings = settingsToSave;
-         GM_setValue(storageKey, JSON.stringify(currentSettings));
-         console.log("Settings saved:", currentSettings);
-         applySettingsInternal(currentSettings);
-         stylesInjectedOnLoad = true;
-     }
+        currentSettings = settingsToSave;
+        GM_setValue(storageKey, JSON.stringify(currentSettings));
+        console.log("Settings saved:", currentSettings);
+        applySettingsInternal(currentSettings);
+        stylesInjectedOnLoad = true;
+    }
 
-     function applySettingsInternal(settingsToApply) {
-         injectOrUpdateStyles(createCssTemplate(settingsToApply));
-         console.log("Applied settings:", settingsToApply);
-     }
+    function applySettingsInternal(settingsToApply) {
+        injectOrUpdateStyles(createCssTemplate(settingsToApply));
+        console.log("Applied settings:", settingsToApply);
+    }
 
-     function applySettingsFromUI() {
-         const panel = document.getElementById(panelElementId);
-         if (!panel) return;
+    function applySettingsFromUI() {
+        const panel = document.getElementById(panelElementId);
+        if (!panel) return;
 
-         const settingsToApply = {};
-          Object.keys(defaultSettings).forEach(key => {
-              const input = panel.querySelector(`[data-setting-key="${key}"]`);
-              if (input) {
+        const settingsToApply = {};
+        Object.keys(defaultSettings).forEach(key => {
+            const input = panel.querySelector(`[data-setting-key="${key}"]`);
+            if (input) {
                 settingsToApply[key] = input.value;
-              } else {
-                  settingsToApply[key] = currentSettings[key];
-              }
-          });
+            } else {
+                settingsToApply[key] = currentSettings[key];
+            }
+        });
 
-          currentSettings = settingsToApply;
-          applySettingsInternal(settingsToApply);
-          stylesInjectedOnLoad = true;
-     }
+        currentSettings = settingsToApply;
+        applySettingsInternal(settingsToApply);
+        stylesInjectedOnLoad = true;
+    }
 
     function resetSettings() {
         console.log("Resetting settings to default.");
@@ -149,12 +149,12 @@
         currentSettings = { ...defaultSettings };
         const panel = document.getElementById(panelElementId);
         if (panel) {
-             Object.keys(defaultSettings).forEach(key => {
-                 const input = panel.querySelector(`[data-setting-key="${key}"]`);
-                 if (input) {
-                     input.value = defaultSettings[key];
-                 }
-             });
+            Object.keys(defaultSettings).forEach(key => {
+                const input = panel.querySelector(`[data-setting-key="${key}"]`);
+                if (input) {
+                    input.value = defaultSettings[key];
+                }
+            });
         }
         removeStyles();
         stylesInjectedOnLoad = false;
@@ -259,14 +259,14 @@
             let step = type === 'number' ? '1' : '';
             let unit = '';
 
-             if (type === 'dimension') {
-                 inputType = 'text';
-                 const match = /(\d+(\.\d+)?)\s*([a-zA-Z%]+)?/.exec(value);
-                 if (match && match[3]) unit = ` (${match[3]})`;
-                 else if (match && !match[3]) unit = ' (px assumed)';
-                 else unit = ' (e.g., 16px, 0.5rem)';
-                  label += unit;
-             }
+            if (type === 'dimension') {
+                inputType = 'text';
+                const match = /(\d+(\.\d+)?)\s*([a-zA-Z%]+)?/.exec(value);
+                if (match && match[3]) unit = ` (${match[3]})`;
+                else if (match && !match[3]) unit = ' (px assumed)';
+                else unit = ' (e.g., 16px, 0.5rem)';
+                label += unit;
+            }
 
             return `
                  <div class="dpm-setting-row" data-type="${type}">
@@ -338,12 +338,12 @@
             if (panel) {
                 const isHidden = panel.style.display === 'none';
                 panel.style.display = isHidden ? 'block' : 'none';
-                 if (isHidden) {
-                     Object.keys(currentSettings).forEach(key => {
-                         const input = panel.querySelector(`[data-setting-key="${key}"]`);
-                         if (input) input.value = currentSettings[key];
-                     });
-                 }
+                if (isHidden) {
+                    Object.keys(currentSettings).forEach(key => {
+                        const input = panel.querySelector(`[data-setting-key="${key}"]`);
+                        if (input) input.value = currentSettings[key];
+                    });
+                }
             }
         });
     }
